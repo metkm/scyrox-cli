@@ -37,11 +37,11 @@ fn main() {
             .collect::<Vec<String>>()
             .join(",");
 
-        println!("{}", values);
+        print!("{}", values);
     }
 
     if args.current_dpi {
-        println!(
+        print!(
             "{:?}",
             config.dpi_values[config.current_dpi_index as usize].value
         );
@@ -49,11 +49,11 @@ fn main() {
 
     if args.battery_level {
         let battery = mouse.get_battery();
-        println!("{:?}", battery.level);
+        print!("{:?}", battery.level);
     }
 
     if args.is_charging {
         let battery = mouse.get_battery();
-        println!("{:?}", battery.charging);
+        print!("{:?}", battery.charging);
     }
 }
