@@ -32,7 +32,6 @@ pub fn voltage_to_level(voltage: i16) -> u8 {
     level.try_into().unwrap_or(0)
 }
 
-
 #[derive(Debug)]
 pub struct Battery {
     pub charging: bool,

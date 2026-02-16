@@ -34,3 +34,50 @@ impl From<Command> for u8 {
         value as u8
     }
 }
+
+#[repr(u16)]
+pub enum MouseEepromAddr {
+    ReportRate = 0x00,            // 报告率
+    MaxDPI = 0x02,                // 最大DPI档位
+    CurrentDPI = 0x04,            // 当前DPI档位
+    Lod = 0x0A,                   // LOD高度
+    DPIValue = 0x0C,              // 第一档DPI值
+    DPIColor = 0x20,              // 第一档DPI颜色
+    DPIEffectMode = 0x4C,         // DPI灯效
+    DPIEffectBrightness = 0x4E,   // DPI灯效亮度
+    DPIEffectSpeed = 0x50,        // DPI灯效亮度
+    DPIEffectState = 0x52,        // DPI灯效亮度
+    LightEffectMode = 0xA0,       // 装饰灯
+    LightEffectColor = 0xA1,      // 装饰灯
+    LightEffectSpeed = 0xA4,      // 装饰灯
+    LightEffectBrightness = 0xA5, // 装饰灯
+    LightEffectState = 0xA7,      // 装饰灯
+    DebounceTime = 0xA9,          // 按钮消抖
+    MotionSync = 0xAB,
+    SleepTime = 0xAD, // 休眠时间 (conflicts with LightEffectTime)
+    Angle = 0xAF,
+    Ripple = 0xB1,
+    MovingOffLight = 0xB3,
+    PerformanceState = 0xB5,
+    PerformanceTime = 0xB7,
+    SensorMode = 0xB9,
+    KeyFunction = 0x60,
+
+    ShortcutKey = 0x100,
+    // Macro = 0x0300,
+
+    // Optional: use aliasing for duplicated address
+    // LightEffectTime = 0xAD,       // same as SleepTime
+}
+
+impl From<MouseEepromAddr> for u16 {
+    fn from(value: MouseEepromAddr) -> Self {
+        value as u16
+    }
+}
+
+impl From<MouseEepromAddr> for u8 {
+    fn from(value: MouseEepromAddr) -> Self {
+        value as u8
+    }
+}

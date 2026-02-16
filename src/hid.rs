@@ -2,6 +2,7 @@ use hidapi::HidDevice;
 
 use crate::REPORT_ID;
 use crate::models::command::Command;
+use crate::models::error::AppError;
 
 pub fn get_usb_crc(buffer: &[u8]) -> u8 {
     let mut crc: i32 = buffer[0..buffer.len() - 1]
@@ -20,7 +21,7 @@ pub fn write_eeprom(
     address: u16,
     value: &[u8],
     length: u8,
-) -> Result<usize, Box<dyn std::error::Error>> {
+) -> Result<usize, AppError> {
     let address_bytes = address.to_be_bytes();
 
     let mut buffer: [u8; 17] = [
