@@ -6,6 +6,7 @@ use crate::models;
 use crate::models::command::{Command, MouseEepromAddr};
 use crate::models::dpi::DpiValue;
 use crate::models::error::AppError;
+use crate::utils::buffer_to_hex;
 
 pub struct Mouse {
     pub device: HidDevice,
@@ -31,14 +32,14 @@ impl MouseConfig {
                     let bytes: &[u8; 4] =
                         &buffer[dpi_base_addr..dpi_base_addr + 4].try_into().unwrap();
 
-                    // let color_base_add = dpi_base_addr + MouseEepromAddr::DPIColor as usize;
-                    // let color_bytes: &[u8; 3] = &buffer[color_base_add..(color_base_add + 3)]
-                    //     .try_into()
-                    //     .unwrap();
+                    let color_base_add = dpi_base_addr + MouseEepromAddr::DPIColor as usize;
+                    let color_bytes: &[u8; 3] = &buffer[color_base_add..(color_base_add + 3)]
+                        .try_into()
+                        .unwrap();
 
                     values.push(DpiValue {
                         value: DpiValue::bytes_to_value(bytes) as u32,
-                        // color: buffer_to_hex(color_bytes),
+                        color: buffer_to_hex(color_bytes),
                     });
                 }
 

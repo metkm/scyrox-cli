@@ -1,9 +1,10 @@
 use crate::models::command::MouseEepromAddr;
 
+#[allow(dead_code)]
 #[derive(Debug)]
 pub struct DpiValue {
     pub value: u32,
-    // pub color: String,
+    pub color: String,
 }
 
 impl DpiValue {
