@@ -54,7 +54,9 @@ impl MouseConfig {
 
 impl Mouse {
     pub fn new() -> Self {
-        let device = device::get_device().expect("Failed to find a compatible device");
+        let device = device::get_device()
+            .expect("Failed to find a compatible device")
+            .unwrap();
 
         Mouse { device }
     }

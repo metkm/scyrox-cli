@@ -1,8 +1,7 @@
 use hidapi::HidDevice;
 
 use crate::{
-    hid::write_eeprom,
-    models::{command::Command, error::AppError},
+    hid::write_eeprom, models::{command::Command, error::AppError}
 };
 
 struct Filter {
@@ -23,7 +22,7 @@ const FILTERS: [Filter; 2] = [
     },
 ];
 
-pub fn get_device() -> Option<HidDevice> {
+pub fn get_device() -> Result<Option<HidDevice>, AppError> {
     let api = hidapi::HidApi::new().unwrap();
 
     let devices = api.device_list().filter(|device| {
@@ -33,14 +32,7 @@ pub fn get_device() -> Option<HidDevice> {
     });
 
     for device_info in devices {
-        let Ok(device) = device_info.open_device(&api) else {
-            println!(
-                "Failed to open device with VID: {:04x} and PID: {:04x}",
-                device_info.vendor_id(),
-                device_info.product_id()
-            );
-            continue;
-        };
+        let device = device_info.open_device(&api)?;
 
         let mut buffer = [0x00; 512];
         let Ok(read_descriptor_count) = device.get_report_descriptor(&mut buffer) else {
@@ -69,11 +61,11 @@ pub fn get_device() -> Option<HidDevice> {
             .and_then(|report| report.report_id)
             .is_some_and(|report_id| u32::from(report_id) == REPORT_ID as u32)
         {
-            return Some(device);
+            return Ok(Some(device));
         }
     }
 
-    None
+    Ok(None)
 }
 
 pub fn read_device_buffer(device: &HidDevice) -> Result<Vec<u8>, AppError> {
